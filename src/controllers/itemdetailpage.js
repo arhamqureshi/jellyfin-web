@@ -1054,6 +1054,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
 
     function renderDetails(page, item, apiClient, context, isStatic) {
         renderSimilarItems(page, item, context);
+        renderParentalGuide(page, item)
         renderMoreFromSeason(page, item, apiClient);
         renderMoreFromArtist(page, item, apiClient);
         renderDirector(page, item, apiClient, context, isStatic);
@@ -1869,6 +1870,37 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 shape: getPortraitShape()
             });
         });
+    }
+
+    function renderParentalGuide(page, item) {
+        page.querySelector("#parentalGuideCollapsible").classList.remove("hide");
+        let imdbURL = item['ExternalUrls'][0]['Url'] + "/parentalguide"
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', imdbURL, true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.send();
+        xhr.onreadystatechange = function(){
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var el = $( '<div></div>' );
+                el.html(xhr.responseText);
+                let nudity = $('#advisory-nudity', el)
+                let violence = $('#advisory-violence', el)
+                let profanity = $('#advisory-profanity', el)
+                let alcohol = $('#advisory-alcohol', el)
+                let frightening = $('#advisory-frightening', el)
+
+                $(page.querySelector('#advisory-nudity > .status')).html($('.ipl-status-pill', nudity))
+                $(page.querySelector('#advisory-violence > .status')).html($('.ipl-status-pill', violence))
+                $(page.querySelector('#advisory-profanity > .status')).html($('.ipl-status-pill', profanity))
+                $(page.querySelector('#advisory-alcohol > .status')).html($('.ipl-status-pill', alcohol))
+                $(page.querySelector('#advisory-frightening > .status')).html($('.ipl-status-pill', frightening))
+                
+                // $('#parentalGuide').html(nudity)
+            }
+            // ipl-status-pill - Majority Rating (None, Mild, Severe, etc)
+            // advisory-severity-vote__message - x of y found this to have <ipl-status-pill>
+            // ipl-zebra-list__item - List items of descriptions
+        };
     }
 
     function itemDetailPage() {
