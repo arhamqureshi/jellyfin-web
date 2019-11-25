@@ -291,7 +291,7 @@
         <div id="parentalGuideCollapsible" class="verticalSection itemVerticalSection verticalSection-extrabottompadding hide">
             <h2 class="sectionTitle sectionTitle-cards padded-left padded-right">${ParentalGuide}</h2>
             <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">
-                <div id="parentalGuide" is="emby-itemscontainer" class="scrollSlider focuscontainer-x itemsContainer">
+                <div id="parentalGuide" is="emby-itemscontainer" class="focuscontainer-x itemsContainer">
                     <div class="advisory" id="advisory-nudity">
                         <h3 class="advisoryTitle">${ParentalGuideNudity}</h3>
                         <span class="status"></span>
@@ -311,6 +311,15 @@
                     <div class="advisory" id="advisory-frightening">
                         <h3 class="advisoryTitle">${ParentalGuideFrightening}</h3>
                         <span class="status"></span>
+                    </div>
+                </div>
+                <div id="parentalGuideDetail">
+                    <div class="parentalGuideMainRow">
+                        <h3 id="parentalGuideDetailTitle"></h3>
+                        <span id="parentalGuideDetailVote"></span>
+                    </div>
+                    <div class="parentalGuideListRow">
+                        <div id="parentalGuideDetailList"></div>
                     </div>
                 </div>
             </div>

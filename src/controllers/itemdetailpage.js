@@ -1882,7 +1882,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         let imdbURL = item['ExternalUrls'][0]['Url'] + "/parentalguide"
         var xhr = new XMLHttpRequest();
         xhr.open('GET', imdbURL, true);
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        // xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         xhr.send();
         xhr.onreadystatechange = function(){
             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -1897,22 +1897,27 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 let nudityStatus = $('.ipl-status-pill', nudity).html()
                 $(page.querySelector('#advisory-nudity > .status')).html(nudityStatus)
                 $(page.querySelector('#advisory-nudity > .status')).css('background-color', btnColour[nudityStatus])
+                $(page.querySelector('#advisory-nudity > .status')).click(() => updateDetails(page, nudity))
 
                 let violenceStatus = $('.ipl-status-pill', violence).html()
                 $(page.querySelector('#advisory-violence > .status')).html($('.ipl-status-pill', violence))
                 $(page.querySelector('#advisory-violence > .status')).css('background-color', btnColour[violenceStatus])
+                $(page.querySelector('#advisory-violence > .status')).click(() => updateDetails(page, violence))
 
                 let profanityStatus = $('.ipl-status-pill', profanity).html()
                 $(page.querySelector('#advisory-profanity > .status')).html($('.ipl-status-pill', profanity))
                 $(page.querySelector('#advisory-profanity > .status')).css('background-color', btnColour[profanityStatus])
+                $(page.querySelector('#advisory-profanity > .status')).click(() => updateDetails(page, profanity))
 
                 let alcoholStatus = $('.ipl-status-pill', alcohol).html()
                 $(page.querySelector('#advisory-alcohol > .status')).html($('.ipl-status-pill', alcohol))
                 $(page.querySelector('#advisory-alcohol > .status')).css('background-color', btnColour[alcoholStatus])
+                $(page.querySelector('#advisory-alcohol > .status')).click(() => updateDetails(page, alcohol))
 
                 let frighteningStatus = $('.ipl-status-pill', frightening).html()
                 $(page.querySelector('#advisory-frightening > .status')).html($('.ipl-status-pill', frightening))
                 $(page.querySelector('#advisory-frightening > .status')).css('background-color', btnColour[frighteningStatus])
+                $(page.querySelector('#advisory-frightening > .status')).click(() => updateDetails(page, frightening))
 
                 page.querySelector("#parentalGuideCollapsible").classList.remove("hide");
             }
@@ -1920,6 +1925,14 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             // advisory-severity-vote__message - x of y found this to have <ipl-status-pill>
             // ipl-zebra-list__item - List items of descriptions
         };
+    }
+
+    function updateDetails(page, imdbData){
+        $('.ipl-hideable-container', imdbData).remove()
+        $(page.querySelector("#parentalGuideDetailTitle")).html($('.ipl-list-title', imdbData).html())
+        $(page.querySelector("#parentalGuideDetailVote")).html($('.advisory-severity-vote__message', imdbData).html())
+        $('.advisory-severity-vote', imdbData).remove()
+        $(page.querySelector("#parentalGuideDetailList")).html($('.ipl-zebra-list', imdbData).html())
     }
 
     function itemDetailPage() {
