@@ -1873,7 +1873,12 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function renderParentalGuide(page, item) {
-        page.querySelector("#parentalGuideCollapsible").classList.remove("hide");
+        let btnColour = {
+            "None": '#33bf6b',
+            "Mild": '#4e9af1',
+            "Moderate": '#f1bb4e',
+            "Severe": '#f14e4e'
+        }
         let imdbURL = item['ExternalUrls'][0]['Url'] + "/parentalguide"
         var xhr = new XMLHttpRequest();
         xhr.open('GET', imdbURL, true);
@@ -1889,13 +1894,27 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 let alcohol = $('#advisory-alcohol', el)
                 let frightening = $('#advisory-frightening', el)
 
-                $(page.querySelector('#advisory-nudity > .status')).html($('.ipl-status-pill', nudity))
+                let nudityStatus = $('.ipl-status-pill', nudity).html()
+                $(page.querySelector('#advisory-nudity > .status')).html(nudityStatus)
+                $(page.querySelector('#advisory-nudity > .status')).css('background-color', btnColour[nudityStatus])
+
+                let violenceStatus = $('.ipl-status-pill', violence).html()
                 $(page.querySelector('#advisory-violence > .status')).html($('.ipl-status-pill', violence))
+                $(page.querySelector('#advisory-violence > .status')).css('background-color', btnColour[violenceStatus])
+
+                let profanityStatus = $('.ipl-status-pill', profanity).html()
                 $(page.querySelector('#advisory-profanity > .status')).html($('.ipl-status-pill', profanity))
+                $(page.querySelector('#advisory-profanity > .status')).css('background-color', btnColour[profanityStatus])
+
+                let alcoholStatus = $('.ipl-status-pill', alcohol).html()
                 $(page.querySelector('#advisory-alcohol > .status')).html($('.ipl-status-pill', alcohol))
+                $(page.querySelector('#advisory-alcohol > .status')).css('background-color', btnColour[alcoholStatus])
+
+                let frighteningStatus = $('.ipl-status-pill', frightening).html()
                 $(page.querySelector('#advisory-frightening > .status')).html($('.ipl-status-pill', frightening))
-                
-                // $('#parentalGuide').html(nudity)
+                $(page.querySelector('#advisory-frightening > .status')).css('background-color', btnColour[frighteningStatus])
+
+                page.querySelector("#parentalGuideCollapsible").classList.remove("hide");
             }
             // ipl-status-pill - Majority Rating (None, Mild, Severe, etc)
             // advisory-severity-vote__message - x of y found this to have <ipl-status-pill>
